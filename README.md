@@ -7,3 +7,5 @@ composer create-project symfony/skeleton blog
 
 Rodar aplicação:
 php -S localhost:3000 -t public
+ou 
+php bin\console server:run
