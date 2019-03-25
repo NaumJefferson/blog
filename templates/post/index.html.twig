@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block body %}
+    {% for message in app.session.flashbag.get('success') %}
+        <h2> {{message}}</h2>
+    {% endfor %}
+
+    <h1>Posts</h1> <a href="{{path('post_create')}}">Criar</a>
+
+    <ul>
+        {% for post in posts %}
+            <li> 
+                {{post.id}} - {{post.titulo}} - {{post.createdAt|date('d/m/Y H:i:s')}}
+                <a href="{{path('post_edit', {id: post.id})}}">Editar</a>
+                <a href="{{path('post_remove', {id: post.id})}}">Remover</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
