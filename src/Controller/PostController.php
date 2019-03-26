@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Post;
 
 /**
- * @Route("/post", name="post_")
+ * @Route("/posts", name="post_")
  */
 class PostController extends AbstractController
 {

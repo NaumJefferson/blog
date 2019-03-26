@@ -3,20 +3,33 @@
 {% block title %}Users{% endblock %}
 
 {% block body %}
-    {% for message in app.session.flashbag.get('success') %}
-        <h2> {{message}}</h2>
-    {% endfor %}
 
-    <h1>Users</h1> <a href="{{path('user_create')}}">New</a>
+    <h1>Users</h1> <a href="{{path('user_create')}}" class="btn btn-sm btn-success">New</a>
 
-    <ul>
-        {% for user in users %}
-            <li> 
-                {{user.id}} - {{user.firstName}} {{user.lastName}}- {{user.createdAt|date('d/m/Y H:i:s')}}
-                <a href="{{path('user_edit', {id: user.id})}}">Editar</a>
-                <a href="{{path('user_remove', {id: user.id})}}">Remover</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>Created At</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.firstName}}</td>
+                    <td>{{user.lastName}}</td>
+                    <td>{{user.createdAt|date('d/m/Y H:i:s')}}</td>
+                    <td>
+                        <a href="{{path('user_edit', {id: user.id})}}" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="{{path('user_remove', {id: user.id})}}" class="btn btn-sm btn-danger">Remover</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

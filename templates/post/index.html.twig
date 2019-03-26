@@ -3,10 +3,6 @@
 {% block title %}Posts{% endblock %}
 
 {% block body %}
-    {% for message in app.session.flashbag.get('success') %}
-        <h2> {{message}}</h2>
-    {% endfor %}
-
     <h1>Posts</h1> <a href="{{path('post_create')}}">Criar</a>
 
     <ul>
