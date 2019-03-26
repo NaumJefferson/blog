@@ -18,7 +18,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/posts/{slug}")
+     * @Route("/single/{slug}")
      */
     public function single($slug){
         return $this->render('Default\single.html.twig', compact('slug'));
