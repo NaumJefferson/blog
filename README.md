@@ -3,7 +3,9 @@
 ## Aprendendo Symfony 4
 
 ### Projeto criado com o comando:
+```bash
 composer create-project symfony/skeleton blog
+```
 
 ### Rodar aplicação:
 ```bash
