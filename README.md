@@ -42,5 +42,7 @@ $ php bin/console make:controller
 ```
 
 ### Exibe o sql que seria executado no banco para refletir o que tem nas entidades, se rodasse o migration
-php bin\console doctrine:schema:update --dump-sql
+```bash
+$php bin\console doctrine:schema:update --dump-sql
+```
 
