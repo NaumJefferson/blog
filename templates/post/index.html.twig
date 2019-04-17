@@ -3,16 +3,33 @@
 {% block title %}Posts{% endblock %}
 
 {% block body %}
-    <h1>Posts</h1> <a href="{{path('post_create')}}">Criar</a>
-
-    <ul>
-        {% for post in posts %}
-            <li> 
-                {{post.id}} - {{post.titulo}} - {{post.createdAt|date('d/m/Y H:i:s')}}
-                <a href="{{path('post_edit', {id: post.id})}}">Editar</a>
-                <a href="{{path('post_remove', {id: post.id})}}">Remover</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <h1>Posts</h1> <a href="{{path('post_create')}}" class="btn btn-sm btn-success">Criar</a>
+    <br/>
+    <br/>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Titulo</td>
+                <td>Autor</td>
+                <td>Created At</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+                <tr>
+                    <td>{{post.id}}</td>
+                    <td>{{post.titulo}}</td>
+                    <td>{{post.author ? post.author.firstName() : '-'}}</td>
+                    <td>{{post.createdAt|date('d/m/Y H:i:s')}}</td>
+                    <td>
+                        <a href="{{path('post_edit', {id: post.id})}}" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="{{path('post_remove', {id: post.id})}}" class="btn btn-sm btn-danger">Remover</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

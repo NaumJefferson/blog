@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
- * @ORM\Table(name="blog.posts")
+ * @ORM\Table(schema="blog", name="posts")
  */
 class Post
 {
@@ -46,6 +48,30 @@ class Post
      * @ORM\Column(type="datetime")
      */
     private $updated_at;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
+     */
+    private $author;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Category")
+     * @ORM\JoinTable(
+     *      schema="blog", 
+     *      name="post_category", 
+     *      joinColumns={
+     *          @ORM\JoinColumn(name="post_id", referencedColumnName="codigo")
+     *      },
+     *      inverseJoinColumns={
+     *          @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     *      }
+     * )
+     */
+    private $categories;
+
+    public function __construct(){
+        $this->categories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -123,4 +149,32 @@ class Post
 
         return $this;
     }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(User $author): self
+    {
+        $this->author = $author;
+        return $this;
+    }
+
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(Collection $categories): self
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->title;
+    }
+
 }

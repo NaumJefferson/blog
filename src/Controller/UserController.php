@@ -11,8 +11,8 @@ use App\Form\UserType;
 
 
 /**
-     * @Route("/users", name="user_")
-     */
+ * @Route("/users", name="user_")
+ */
 class UserController extends AbstractController
 {
 
@@ -58,6 +58,7 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, $id){
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
+        
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 

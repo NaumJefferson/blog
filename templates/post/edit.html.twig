@@ -3,27 +3,10 @@
 {% block title %} Edição de Posts {% endblock %}
 
 {% block body %}
-    <form action="{{path('post_update', {'id': post.id })}}" method="post">
-        <p>
-            <label for="titulo">Titulo: </label>
-            <input type="text" id="titulo" name="titulo" value="{{post.titulo}}"/>
-        </p>
-        <p>
-            <label for="descricao">Descrição: </label>
-            <input type="text" id="descricao" name="descricao" value="{{post.descricao}}"/>
-        </p>
-        <p>
-            <label for="slug">Slug: </label>
-            <input type="text" id="slug" name="slug" value="{{post.slug}}"/>
-        </p>
-        <p>
-            <label for="conteudo">Conteúdo: </label>
-            <textarea type="text" id="conteudo" name="conteudo" rows="5" cols="100">
-                {{post.conteudo}}
-            </textarea>
-        </p>
-        <p>
-            <button type="submit">Salvar</button>
-        </p>
-    </form>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <button type="submit" class="btn btn-lg btn-success">Salvar</button>
+
+    {{ form_end(form) }}
 {% endblock %}

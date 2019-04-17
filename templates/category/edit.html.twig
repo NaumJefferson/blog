@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Edição de Categorias {% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <button type="submit" class="btn btn-lg btn-success">Salvar</button>
+
+    {{ form_end(form) }}
+
+    <br/>
+    <br/>
+    <table class="table">
+        <thead>
+            <tr>
+                <td colspan="3">Postagens</td>
+            </tr>
+            <tr>
+                <td>Id</td>
+                <td>Name</td>
+                <td>Created At</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in category.posts %}
+                <tr>
+                    <td>{{post.id}}</td>
+                    <td>{{post.titulo}}</td>
+                    <td>{{post.createdAt|date('d/m/Y H:i:s')}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -7,10 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(schema="blog", name="users")
+ * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ * @ORM\Table(schema="blog", name="categories")
  */
-class User
+class Category
 {
     /**
      * @ORM\Id()
@@ -22,17 +22,17 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $first_name;
+    private $name;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $last_name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $email;
+    private $slug;
 
     /**
      * @ORM\Column(type="datetime")
@@ -45,16 +45,11 @@ class User
     private $updated_at;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $username;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
+     * @ORM\ManyToMany(targetEntity="Post", mappedBy="categories")
      */
     private $posts;
 
-    public function __contruct(){
+    public function __construct(){
         $this->posts = new ArrayCollection();
     }
 
@@ -63,38 +58,38 @@ class User
         return $this->id;
     }
 
-    public function getFirstName(): ?string
+    public function getName(): ?string
     {
-        return $this->first_name;
+        return $this->name;
     }
 
-    public function setFirstName(string $first_name): self
+    public function setName(string $name): self
     {
-        $this->first_name = $first_name;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getDescription(): ?string
     {
-        return $this->last_name;
+        return $this->description;
     }
 
-    public function setLastName(string $last_name): self
+    public function setDescription(string $description): self
     {
-        $this->last_name = $last_name;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getSlug(): ?string
     {
-        return $this->email;
+        return $this->slug;
     }
 
-    public function setEmail(string $email): self
+    public function setSlug(string $slug): self
     {
-        $this->email = $email;
+        $this->slug = $slug;
 
         return $this;
     }
@@ -123,38 +118,19 @@ class User
         return $this;
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function addPost(Post $post): self
-    {
-        if(!$this->posts->contains($post)){
-            $this->posts->add($post);
-        }
-        return $this;
-    }
-
     public function getPosts(): Collection
     {
         return $this->posts;
     }
 
-    public function setPosts(Collection $posts): self
+    public function setPosts(Collection $post): self
     {
         $this->posts = $posts;
+
         return $this;
     }
 
     public function __toString(){
-        return $this->first_name;
+        return $this->name;
     }
 }

@@ -5,7 +5,11 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+
 use App\Entity\Post;
+use App\Entity\User;
+use App\Form\PostType;
+
 
 /**
  * @Route("/posts", name="post_")
@@ -26,72 +30,61 @@ class PostController extends AbstractController
     /**
      * @Route("/create", name="create")
      */
-    public function create()
+    public function create(Request $request)
     {
-        return $this->render('post/create.html.twig');
-    }
-
-    /**
-     * @Route("/save", name="save")
-     */
-    public function save(Request $request)
-    {
-        $data = $request->request->all();
-
         $post = new Post();
-        $post->setTitulo($data['titulo']);
-        $post->setDescricao($data['descricao']);
-        $post->setSlug($data['slug']);
-        $post->setConteudo($data['conteudo']);
-        $post->setCreatedAt(new \DateTime('now', new \DateTimeZone('America/Recife')));
-        $post->setUpdatedAt(new \DateTime('now', new \DateTimeZone('America/Recife')));
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($post);
-        $em->flush();
+        if($form->isSubmitted()){
+            $post->setCreatedAt(new \DateTime('now', new \DateTimeZone('America/Recife')));
+            $post->setUpdatedAt(new \DateTime('now', new \DateTimeZone('America/Recife')));
 
-        $this->addFlash("success", "Post criado com sucesso");
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
 
-        return $this->redirectToRoute('post_index');
+            $this->addFlash("success", "Post criado com sucesso");
+
+            return $this->redirectToRoute('post_index');
+        }
+
+        return $this->render('post/create.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
      * @Route("/edit/{id}", name="edit")
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()){
+            $post->setUpdatedAt(new \DateTime('now', new \DateTimeZone('America/Recife')));
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+    
+            $this->addFlash("success", "Post atualizado com sucesso");
+    
+            return $this->redirectToRoute('post_index');
+        }
+
         return $this->render('post/edit.html.twig', [
+            'form' => $form->createView(),
             'post' => $post
         ]);
     }
 
     /**
-     * @Route("/update/{id}", name="update")
-     */
-    public function update(Request $request, $id)
-    {
-        $data = $request->request->all();
-        
-        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
-        $post->setTitulo($data['titulo']);
-        $post->setDescricao($data['descricao']);
-        $post->setSlug($data['slug']);
-        $post->setConteudo($data['conteudo']);
-        $post->setUpdatedAt(new \DateTime('now', new \DateTimeZone('America/Recife')));
-
-        $em = $this->getDoctrine()->getManager();
-        $em->flush();
-
-        $this->addFlash("success", "Post atualizado com sucesso");
-
-        return $this->redirectToRoute('post_index');
-    }
-
-    /**
      * @Route("/remove/{id}", name="remove")
      */
-    public function remover($id){
+    public function remove($id){
         $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
 
         $em = $this->getDoctrine()->getManager();
