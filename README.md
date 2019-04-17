@@ -4,16 +4,16 @@
 
 ### Projeto criado com o comando:
 ```bash
-composer create-project symfony/skeleton blog
+$ composer create-project symfony/skeleton blog
 ```
 
 ### Rodar aplicação:
 ```bash
-php -S localhost:3000 -t public
+$ php -S localhost:3000 -t public
 ```
 ou 
 ```bash
-php bin\console server:run
+$ php bin\console server:run
 ```
 
 ### Cria nova entidade e seu respectivo repositório:
